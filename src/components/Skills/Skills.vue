@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <div class="holder">
-      <form @submit.prevent="addSkill">
+      <form @submit.prevent="addItem">
         <transition name="alert-in" enter-active-class="animated flipInX" leave-active-class="animated flipOutX">
           <p class="alert" v-if="errors.has('skill')">{{ errors.first('skill') }}</p>
         </transition>
@@ -9,7 +9,7 @@
       </form>
       <ul>
         <transition-group name="list" enter-active-class="animated bounceInUp" leave-active-class="animated bounceOutDown">
-          <li v-for="(item,index) in skills" :key='index'> 
+          <li v-for="(item,index) in users.users" :key='index'> 
             <span v-if="!item.isEditing">{{ index }} . {{item.name}} </span>
             <input type="text" v-else v-model="item.name">
             <button class="btn" v-on:click="deleteItem(item.id)"> Delete </button>
@@ -18,80 +18,34 @@
           </li>
         </transition-group>
       </ul>
-      <p v-if="this.skills.length>0">These are the skills that you possess.</p>
-      <p v-else>You don't posses any skills. :(</p>
+      <p v-if="users.users.length>0">These are the users that you possess.</p>
+      <p v-else>You don't posses any users. :(</p>
     </div>
   </div>
 </template>
 
 <script>
-import Utils from '../Utils/Utils.js';
-import Position from '../../model/Position.js';
-import { EventBus } from '../../event/Event.js';
-import {axiosApi} from '../Utils/axiosAPI.js';
+import { mapState } from 'vuex';
 
 export default {
   name: 'Skills',
   data(){
     return {
-      skill:'',
-      skills:[
-      ]
+      skill:''
     }
   },
-  mounted : function (){
-    EventBus.emit('loading-event',true);
-    axiosApi.get('users')
-      .then(response => {
-        this.skill = '';
-        this.skills=[];
-        response.data.forEach((item)=>this.skills.push(new Position(item)));
-        EventBus.emit('loading-event',false)
-      })
+  computed:mapState(['users']),
+  mounted(){
+    this.$store.dispatch('getUsers');
   },
   methods : {
-    deleteItem(index){ 
-      EventBus.emit('loading-event',true);
-      axiosApi.delete('user/'+index)
-      .then( () => {
-        axiosApi.get('users')
-        .then(response => {
-          this.skills=[];
-          response.data.forEach((item)=>this.skills.push(new Position(item)));
-          EventBus.emit('loading-event',false)
-        })
-      });
-    },
-    editItem(item){
-      item.isEditing=true;
-    },
-    renameItem(item){ 
-      EventBus.emit('loading-event',true);
-      axiosApi.put('user/'+item.id,{name:item.name})
-      .then( () => {
-        axiosApi.get('users')
-        .then(response => {
-          this.skills=[];
-          response.data.forEach((item)=>this.skills.push(new Position(item)));
-          EventBus.emit('loading-event',false);
-        })
-      });
-      item.isEditing=false;
-    },
-    addSkill(){
+    deleteItem(index){this.$store.dispatch('deleteUser',index);},
+    editItem(item){item.isEditing=true;},
+    renameItem(item){this.$store.dispatch('updateUser',item);},
+    addItem(){
       this.$validator.validateAll().then((result) => {
         if (result) {
-          EventBus.emit('loading-event',true);
-          axiosApi.post('user',{name:this.skill})
-          .then( () => {
-            axiosApi.get('users')
-            .then(response => {
-              this.skill = '';
-              this.skills=[];
-              response.data.forEach((item)=>this.skills.push(new Position(item)));
-              EventBus.emit('loading-event',false)
-            })
-          });
+          this.$store.dispatch('addUser',this.skill);
         } else {
           this.$notify({
             group: 'notifications',
@@ -102,11 +56,10 @@ export default {
             type: 'warn'
           });
         }
-      })
+      });
     }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style src="./Skills.css" scoped> </style>

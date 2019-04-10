@@ -18,15 +18,16 @@ export default {
   name: 'app',
   components: {VueLoading},
   data(){
-    return {visible:false}  
+    return {}
   },
   created() {
-    EventBus.on('loading-event', this.loadingEventHandler),
     EventBus.on('notify-error-rest', this.notifyErrorRestHandler)
   },
   methods:{
-    loadingEventHandler(visible){this.visible=visible;},
     notifyErrorRestHandler(notifyParam){this.$notify(notifyParam);}
+  },
+  computed:{
+    visible(){return this.$store.getters.getVisible;}
   }
 }
 </script>

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Skills from './Skills/Skills.vue'
-import About from './About/About.vue'
+import Skills from '../Skills/Skills.vue'
+import About from '../About/About.vue'
 
 Vue.use(Router)
 
