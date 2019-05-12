@@ -5,12 +5,12 @@
         <transition name="alert-in" enter-active-class="animated flipInX" leave-active-class="animated flipOutX">
           <p class="alert" v-if="errors.has('skill')">{{ errors.first('skill') }}</p>
         </transition>
-        <input type="text" placeholder="Enter a skill you have.." v-model="skill" v-validate="'min:5'" name="skill">
+        <input type="text" placeholder="Enter an user name here..." v-model="skill" v-validate="'min:5'" name="skill">
       </form>
       <ul>
         <transition-group name="list" enter-active-class="animated bounceInUp" leave-active-class="animated bounceOutDown">
-          <li v-for="(item,index) in users.users" :key='index'> 
-            <span v-if="!item.isEditing">{{ index }} . {{item.name}} </span>
+          <li v-for="(item,index) in orderedUsers" :key='index'> 
+            <span v-if="!item.isEditing">{{index+1}} . {{item.name}} : {{item.points}}</span>
             <input type="text" v-else v-model="item.name">
             <button class="btn" v-on:click="deleteItem(item.id)"> Delete </button>
             <button class="btn" v-if="!item.isEditing" v-on:click="editItem(item)"> Rename </button>
@@ -18,8 +18,7 @@
           </li>
         </transition-group>
       </ul>
-      <p v-if="users.users.length>0">These are the users that you possess.</p>
-      <p v-else>You don't posses any users. :(</p>
+      <p v-if="!users.users.length>0">Add some users. :(</p>
     </div>
   </div>
 </template>
@@ -34,7 +33,12 @@ export default {
       skill:''
     }
   },
-  computed:mapState(['users']),
+  computed:{
+    ...mapState(['users']),
+    orderedUsers: function () { 
+        return this.users.users.sort( (a,b)=>a.points<=b.points )
+      }
+    },
   mounted(){
     this.$store.dispatch('getUsers');
   },

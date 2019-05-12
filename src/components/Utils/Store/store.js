@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import users from './users'
+import transictions from './transictions'
 
 Vue.use(Vuex)
 
@@ -14,5 +15,5 @@ export default new Vuex.Store({
     },
     mutations:{
         loadingEvent:(state,visible)=>state.visible=visible
-    },modules:{users}
+    },modules:{users,transictions}
 });

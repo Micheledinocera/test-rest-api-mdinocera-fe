@@ -1,12 +1,11 @@
-export default class Position{
+export default class Transiction{
     name='';
-    id=0;
     points=0;
-    isEditing=false;
+    description='';
 
     constructor(position = {}) {
         this.name = position.name ? position.name : "";
-        this.id = position.id ? position.id : 0;
+        this.description = position.description ? position.description : "";
         this.points = position.points ? position.points : 0;
     }
 }

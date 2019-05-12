@@ -3,8 +3,8 @@
     <notifications group="notifications" position="top left"/>
     <VueLoading :active.sync="visible" :can-cancel="true" :is-full-page="true" loader="dots"/>
     <nav>
-      <router-link to="/">Home</router-link>
-      <router-link to="/about">About</router-link>
+      <router-link to="/">Classifica</router-link>
+      <router-link to="/points">Points</router-link>
     </nav>
     <router-view/>
   </div>
