@@ -15,6 +15,22 @@ html {
   margin: 0;
   height: 100%;
 }
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+ul li {
+  padding: 20px;
+  font-size: 1.3em;
+  background-color: #E0EDF4;
+  border-left: 5px solid #3EB3F6;
+  margin-bottom: 2px;
+  color: #3E5252;
+}
+ul li input {
+  width: 70%;
+}
 nav {
   padding: 20px 20px 20px 0;
 }
@@ -46,14 +62,33 @@ nav a {
 }
 .btn {
   float: right!important;
-  background-color: black!important;
-  color: white!important;
-  font-weight: 700!important;
-  border-radius: 10px!important;
-  transition: all 0.5s ease!important;
-  border: solid 1px gray!important;
+  background-color: transparent!important;
+  background-image: url(/img/delete.32af59c4.svg) !important;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: transparent !important;
+  border: none !important;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
 }
-.btn:hover {
-  background-color: white!important;
-  color: black!important;
+.btn.edit {
+  background-image: url(assets/edit.svg) !important;
+}
+.btn.delete {
+  background-image: url(assets/delete.svg) !important;
+}
+.btn.done {
+  background-image: url(assets/done.svg) !important;
+}
+.btn.save {
+  background-image: url(assets/save.svg) !important;
+}
+.btn.send {
+  background-image: url(assets/send.svg) !important;
+}
+.btn:disabled {
+  pointer-events: none;
+  opacity: 0.5 !important;
 }

@@ -9,11 +9,9 @@ export default {
     },mutations : {
         setUsers:(state, users) => state.users = users
     },actions : {
-        //getUsers: async context=>{
         getUsers: context=>{
             context.commit('loadingEvent',true);
-            // let { data } = await axiosApi.get('userss');
-            axiosApi.get('users')
+            axiosApi.post('users',{owner_id:context.rootGetters.getAdmin.id})
             .then(response=>{
                 var users=[];
                 response.data.forEach((item)=>users.push(new Position(item)));
@@ -24,30 +22,24 @@ export default {
         deleteUser: (context,index)=>{
             context.commit('loadingEvent',true);
             axiosApi.delete('user/'+index)
-            .then(response=>{
-                var users=[];
-                response.data.forEach((item)=>users.push(new Position(item)));
-                context.commit('setUsers', users)
+            .then( () =>{
+                context.dispatch('getUsers');
             })
             .then(()=>context.commit('loadingEvent',false));
         },
         updateUser: (context,user)=>{
             context.commit('loadingEvent',true);
-            axiosApi.put('user/'+user.id,{name:user.name})
-            .then(response=>{
-                var users=[];
-                response.data.forEach((item)=>users.push(new Position(item)));
-                context.commit('setUsers', users)
+            axiosApi.put('user/update',{id:user.id,name:user.name})
+            .then(()=>{
+                context.dispatch('getUsers');
             })
             .then(()=>context.commit('loadingEvent',false));
         },
         addUser: (context,name)=>{
             context.commit('loadingEvent',true);
-            axiosApi.post('user',{name:name})
-            .then(response=>{
-                var users=[];
-                response.data.forEach((item)=>users.push(new Position(item)));
-                context.commit('setUsers', users)
+            axiosApi.post('user',{id:context.rootGetters.getAdmin.id,name:name})
+            .then(()=>{
+                context.dispatch('getUsers');
             })
             .then(()=>context.commit('loadingEvent',false));
         }

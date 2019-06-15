@@ -9,12 +9,12 @@
       </form>
       <ul>
         <transition-group name="list" enter-active-class="animated bounceInUp" leave-active-class="animated bounceOutDown">
-          <li v-for="(item,index) in orderedUsers" :key='index'> 
+          <li v-for="(item,index) in users.users" :key="'users'+index"> 
             <span v-if="!item.isEditing">{{index+1}} . {{item.name}} : {{item.points}}</span>
-            <input type="text" v-else v-model="item.name">
-            <button class="btn" v-on:click="deleteItem(item.id)"> Delete </button>
-            <button class="btn" v-if="!item.isEditing" v-on:click="editItem(item)"> Rename </button>
-            <button class="btn" v-else v-on:click="renameItem(item)"> Update </button>
+            <input v-else type="text" v-model="item.name">
+            <button class="btn delete" v-on:click="deleteItem(item.id)">  </button>
+            <button class="btn edit" v-if="!item.isEditing" v-on:click="editItem(item)">  </button>
+            <button class="btn done" v-else v-on:click="renameItem(item)">  </button>
           </li>
         </transition-group>
       </ul>
@@ -35,9 +35,9 @@ export default {
   },
   computed:{
     ...mapState(['users']),
-    orderedUsers: function () { 
-        return this.users.users.sort( (a,b)=>a.points<=b.points )
-      }
+    // orderedUsers: function () { 
+    //     return this.users.users.sort( (a,b)=>a.points<=b.points )
+    //   }
     },
   mounted(){
     this.$store.dispatch('getUsers');

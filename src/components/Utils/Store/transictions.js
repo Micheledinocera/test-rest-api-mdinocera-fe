@@ -11,7 +11,7 @@ export default {
     },actions : {
         getTransictions: context=>{
             context.commit('loadingEvent',true);
-            axiosApi.get('transitions')
+            axiosApi.post('transitions',{owner_id:context.rootGetters.getAdmin.id})
             .then(response=>{
                 var transictions=[];
                 response.data.forEach(
@@ -23,12 +23,10 @@ export default {
         },
         addTransiction: (context,transiction)=>{
             context.commit('loadingEvent',true);
+            transiction.id=
             axiosApi.post('user/points',transiction)
-            .then(response=>{
-                var transictions=[];
-                response.data.forEach((item)=>transictions.push(new Transiction(item)));
-                // context.commit('setTransictions', transictions)
-                context.dispatch('getTransictions')
+            .then(()=>{
+               context.dispatch('getTransictions')
             })
             .then(()=>context.commit('loadingEvent',false));
         }
