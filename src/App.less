@@ -2,6 +2,9 @@
 
 #app {
     width: 90%;
+    >.info{
+      display: flex;
+    }
 }
 
 body {
@@ -65,7 +68,7 @@ nav {
 .btn{
   float: right!important;
   background-color: transparent!important;
-  background-image: url(/img/delete.32af59c4.svg) !important;
+  // background-image: url(/img/delete.32af59c4.svg) !important;
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
@@ -82,5 +85,13 @@ nav {
   &:disabled{
     pointer-events: none;
     opacity: 0.5 !important;
+  }
+  &.no-icon{
+    float: none !important;
+    margin: 0 15px;
+    border: solid 1px black !important;
+    width: auto;
+    padding: 0 5px;
+    &.moreOrLess{width: 40px;}
   }
 }

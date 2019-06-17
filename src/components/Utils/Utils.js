@@ -15,4 +15,12 @@ export default class Utils{
     }
 
     static pad2=(number) => (number < 10 ? '0' : '') + number;
+
+    static EMPTY_ADMIN={
+        isLoggedIn:false,
+        name:"",
+        type:"",
+        id:0,
+        ownerName:""
+    }
 }

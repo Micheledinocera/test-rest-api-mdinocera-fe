@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <div class="holder">
-      <form @submit.prevent="addItem">
+      <form @submit.prevent="addItem" v-if="getAdmin.type=='admin'">
         <transition name="alert-in" enter-active-class="animated flipInX" leave-active-class="animated flipOutX">
           <p class="alert" v-if="errors.has('skill')">{{ errors.first('skill') }}</p>
         </transition>
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState,mapGetters } from 'vuex';
 
 export default {
   name: 'Skills',
@@ -35,9 +35,7 @@ export default {
   },
   computed:{
     ...mapState(['users']),
-    // orderedUsers: function () { 
-    //     return this.users.users.sort( (a,b)=>a.points<=b.points )
-    //   }
+    ...mapGetters(['getAdmin'])
     },
   mounted(){
     this.$store.dispatch('getUsers');

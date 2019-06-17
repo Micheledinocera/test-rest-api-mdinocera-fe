@@ -2,6 +2,9 @@
 #app {
   width: 90%;
 }
+#app > .info {
+  display: flex;
+}
 body {
   background-color: #EEEEEE;
   font-family: 'Montserrat', sans-serif;
@@ -63,7 +66,6 @@ nav a {
 .btn {
   float: right!important;
   background-color: transparent!important;
-  background-image: url(/img/delete.32af59c4.svg) !important;
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
@@ -91,4 +93,14 @@ nav a {
 .btn:disabled {
   pointer-events: none;
   opacity: 0.5 !important;
+}
+.btn.no-icon {
+  float: none !important;
+  margin: 0 15px;
+  border: solid 1px black !important;
+  width: auto;
+  padding: 0 5px;
+}
+.btn.no-icon.moreOrLess {
+  width: 40px;
 }
