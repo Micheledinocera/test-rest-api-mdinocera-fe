@@ -66,14 +66,14 @@ export default {
   },
   computed:{
     ...mapState(['users','favorites']),
-    ...mapGetters(['getAdmin'])
+    ...mapGetters(['getAdmin','getFavorites']),
   },
   mounted(){
     this.$store.dispatch('getUsers');
-    this.$store.dispatch('getFavorites');
+    this.getFavorites();
   },
   methods:{
-    ...mapActions(['login','addTransiction','addFavorite','register','setAdminId']),
+    ...mapActions(['login','addTransiction','addFavorite','register','setAdminId','getFavorites']),
     deleteItem(index){this.$store.dispatch('deleteFavorite',index);},
     sendTransition(description,points){
       this.addTransiction({

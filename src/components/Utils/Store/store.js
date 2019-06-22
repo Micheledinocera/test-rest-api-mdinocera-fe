@@ -22,9 +22,8 @@ export default new Vuex.Store({
         login:(context,credentials)=>{
             context.commit('loadingEvent',true);
             axiosApi.post('owner/login',credentials)
-            .then((response)=>{
-                context.commit('login', response.data);
-            })
+            .then((response)=>{ context.commit('login', response.data); })
+            .then(()=>{context.dispatch('getFavorites');})
             .then(()=>{
                 EventBus.emit('notify-error-rest',{
                     group: 'notifications',
@@ -61,7 +60,7 @@ export default new Vuex.Store({
             isLoggedIn:true,
             name:data.username,
             type:data.type,
-            ownerName:"dummy",
+            ownerName:data.username,
             id:data.id
         }:{
             isLoggedIn:true,
